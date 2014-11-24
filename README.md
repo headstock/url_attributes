@@ -27,6 +27,16 @@ This does two things:
 2. Before save, it strips trailing whitespace from the link and adds `"http://"` to the beginning
    if it (or `"https://"`) is not already there.
 
+## Matcher
+
+The gem also comes with an RSpec matcher. You can use it like this:
+
+    describe MyAwesomeModel do
+
+      it { is_expected.to have_url_attribute :link }
+
+    end
+
 ## Contributing
 
 Want to contribute to this gem? You're more than welcome! Just clone the repo from GitHub,
