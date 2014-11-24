@@ -3,7 +3,7 @@
 #     # Model with string attributes called 'checkout_url' and 'homepage_url'
 #     class Example < ActiveRecord::Base
 #
-#       urlify :checkout_url, :homepage_url
+#       url_attribute :checkout_url, :homepage_url
 #
 #     end
 #
@@ -13,23 +13,20 @@
 module URLAttributes
   module ActiveRecord
 
-    def urlify(*attributes)
-      attributes.each do |url_attribute|
+    def url_attribute(attribute_name, opts={})
+      validates attribute_name, :url => true, :if => "#{attribute_name}.present?"
 
-        validates url_attribute, :url => true, :if => "#{url_attribute}.present?"
-
-        # Add "http://" to the URL if it's not already there.
-        before_save do |record|
-          url = record[url_attribute]
-          if url.present? && !(url =~ /\A\s*https?:\/\//)
-            url = "http://#{url.try(:strip)}"
-          end
-          record[url_attribute] = url
+      # Add "http://" to the URL if it's not already there.
+      before_save do |record|
+        url = record[attribute_name]
+        if url.present? && !(url =~ /\A\s*https?:\/\//)
+          url = "http://#{url.try(:strip)}"
         end
+        record[attribute_name] = url
       end
     end
 
   end
 end
 
-ActiveRecord::Base.send(:extend, URLify)
+ActiveRecord::Base.send(:extend, URLAttributes::ActiveRecord)
