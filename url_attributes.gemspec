@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email         = ["georgejulianmillo@gmail.com"]
   s.summary       = "Simple URL attributes for ActiveRecord"
   s.description   = "Validate and sanitize URLs in ActiveRecord"
-  s.homepage      = 'http://github.com/georgemillo/url_attributes'
+  s.homepage      = 'http://github.com/headstock/url_attributes'
   s.license       = "MIT"
 
   s.files         = `git ls-files -z`.split("\x0")
