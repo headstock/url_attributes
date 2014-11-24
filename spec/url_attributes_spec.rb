@@ -35,43 +35,34 @@ describe "ActiveRecord::Base#url_attribute" do
 
   end
 
-  
-#     context "when url does not begin with 'http://' or 'https://'" do
-#       it "adds 'http://'" do
-#         link.url = "example.com/example"
-#         link.run_callbacks :save
-#         expect(link.url).to eq "http://example.com/example"
-#       end
-#     end
-# 
-#     context "when url already begins with 'http://' or 'https://" do
-#       it "doesn't add http://" do
-#         link.url = "http://example.com/example"
-#         link.run_callbacks :save
-#         expect(link.url).to eq "http://example.com/example"
-# 
-#         link.url = "https://example.com/example"
-#         link.run_callbacks :save
-#         expect(link.url).to eq "https://example.com/example"
-#       end
-#     end
-# 
-#     context "when url has trailing whitespace" do
-#       it "strips it BEFORE adding 'http://'" do
-#         link.url = "    example.com/example     "
-#         link.run_callbacks :save
-#         # Make sure whitespace gets stripped BEFORE http is added!
-#         expect(link.url).to eq "http://example.com/example"
-#       end
-#     end
-# 
-# 
-#     it "creates a unique short link for the URL" do
-#       link.url = "http://example.com/qwertyuiop"
-#       expect(link.short_link).to be_nil
-#       link.save!
-#       expect(link.short_link).to be_present
-#       expect(link.short_link).to match(/\A[a-z0-9]{#{Link::SHORT_LINK_LENGTH}}\z/)
-#     end
-#   end
+  describe "before the model is saved" do
+    context "when url does not begin with 'http://' or 'https://'" do
+      it "adds 'http://'" do
+        model.url = "example.com/example"
+        model.run_callbacks :save
+        expect(model.url).to eq "http://example.com/example"
+      end
+    end
+
+    context "when url already begins with 'http://' or 'https://" do
+      it "doesn't add http://" do
+        model.url = "http://example.com/example"
+        model.run_callbacks :save
+        expect(model.url).to eq "http://example.com/example"
+
+        model.url = "https://example.com/example"
+        model.run_callbacks :save
+        expect(model.url).to eq "https://example.com/example"
+      end
+    end
+
+    context "when url has trailing whitespace" do
+      it "strips it BEFORE adding 'http://'" do
+        model.url = "    example.com/example     "
+        model.run_callbacks :save
+        # Make sure whitespace gets stripped BEFORE http is added!
+        expect(model.url).to eq "http://example.com/example"
+      end
+    end
+  end
 end
