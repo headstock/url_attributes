@@ -24,8 +24,17 @@ then call the class method `url_attribute` in your model like this:
 This does two things:
 
 1. It adds a validation to `link` that 
-2. Before save, it strips trailing whitespace from the link and adds `"http://"` to the beginning
-   if it (or `"https://"`) is not already there.
+2. Before save, it strips trailing whitespace from the link and adds
+   `"http://"` to the beginning if it (or `"https://"`) is not already there.
+
+If you want the logic to run somewhere other than `before_save`, pass a
+`:before` option with the name of another `before_` callback:
+
+    class MyAwesomeModel < ActiveRecord::Base
+
+      url_attribute :link, before: :validation
+
+    end
 
 ## Matcher
 
