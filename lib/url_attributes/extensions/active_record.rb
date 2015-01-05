@@ -13,17 +13,20 @@
 module URLAttributes
   module ActiveRecord
 
-    def url_attribute(attribute_name, opts={})
+    def url_attribute(attribute_name, before: :save)
       validates attribute_name, :url => true, :if => "#{attribute_name}.present?"
 
+      callback_method = :"before_#{before}"
+        
       # Add "http://" to the URL if it's not already there.
-      before_save do |record|
+      send(callback_method) do |record|
         url = record[attribute_name]
         if url.present? && !(url =~ /\A\s*https?:\/\//)
           url = "http://#{url.try(:strip)}"
         end
         record[attribute_name] = url
       end
+
     end
 
   end

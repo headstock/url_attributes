@@ -65,4 +65,13 @@ describe "ActiveRecord::Base#url_attribute" do
       end
     end
   end
+
+  context "when passed a 'before' option" do
+    it "runs the callbacks on the given validation instead of before_save" do
+      model.other_url = "    example.com/example     "
+      model.run_callbacks :validation
+      expect(model.other_url).to eq "http://example.com/example"
+    end
+  end
+
 end
