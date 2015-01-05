@@ -9,7 +9,11 @@ if defined?(RSpec)
       model.valid?
       test_1 = !model.errors[attribute_name].include?("is not a valid URL")
       model.send :"#{attribute_name}=", "nohttp.com"
-      model.run_callbacks :save
+      if @checked_before
+        model.run_callbacks @checked_before
+      else
+        model.run_callbacks :save
+      end
       test_2 = model.send(attribute_name) == "http://nohttp.com"
       test_0 && test_1 && test_2
     end
@@ -17,5 +21,7 @@ if defined?(RSpec)
     failure_message do |model|
       "expected that #{model} would have a URL attribute called #{attribute_name}, but it doesn't look like a URL"
     end
+
+    chain(:checked_before) { |callback| @checked_before = callback }
   end
 end
