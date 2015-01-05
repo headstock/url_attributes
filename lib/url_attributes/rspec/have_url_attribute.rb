@@ -1,4 +1,4 @@
-if Rails.env.test? && defined?(RSpec)
+if defined?(RSpec)
   RSpec::Matchers.define :have_url_attribute do |attribute_name|
     # This matcher is an ugly piece of shit
     match do |model|
